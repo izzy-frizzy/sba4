@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <input id="task" type="text" placeholder="Enter an task" />
+    <input id="categoryInput" type="text" placeholder="Enter an category" />
+    <input id="DeadLineStatus" type="date"/>
+    <label for="status">Choose a status:</label>
+
+    <select name="manager" id="status">
+      <option value="">--Please choose an option--</option>
+      <option value="in progress">in progress</option>
+      <option value="complete">complete</option>
+      <option value="over due">over due</option>
+    </select>
+    <button id="addTaskButton">Add Task</button>
+    <!-- <button id="removeItemButton">Remove Last Item</button> -->
+    <ul id="taskList"></ul>
+  </body>
+</html>
