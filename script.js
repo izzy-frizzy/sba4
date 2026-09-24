@@ -9,32 +9,86 @@ let addTaskButton = document.getElementById("addTaskButton");
 let taskL = document.getElementById("taskList");
 
 let filterInput = document.getElementById("filterInput");
-let filterButton = document.getElementById("filterButton")
+let filterCategory = document.getElementById("filterCategory");
+let filterButton = document.getElementById("filterButton");
 
 addTaskButton.addEventListener("click", function () {
-  
   let tasks = {
     task: taskLabel.value,
     category: categoryInput.value,
     deadLine: DeadLineStatus.value,
     status: taskStatus.value,
   };
-  if(tasks.task === "" || tasks.category === "" || tasks.deadLine === "" || tasks.status === ""){
+  if (
+    tasks.task === "" || tasks.category === "" || tasks.deadLine === "" || tasks.status === "") {
     alert("Please enter in each input field!");
     return;
-
   }
 
   taskList.push(tasks);
-  showTasks();
   checkOverdueTasks();
-  
+  showTasks();
+
   taskLabel.value = "";
   categoryInput.value = "";
   DeadLineStatus.value = "";
   taskStatus.value = "";
+});
 
-  function checkOverdueTasks() {
+filterButton.addEventListener("click", function () {
+  let filter = filterInput.value;
+
+  let filteredTasks = filterItem(filter);
+  console.log(filteredTasks);
+  showFilteredTasks(filteredTasks);
+
+  filterInput.value = "";
+  filterCategory.value = "";
+  
+});
+
+function filterItem(searchTerm) {
+    let terms = [];
+    if (filterCategory.value === "task") {
+      for (let i = 0; i < taskList.length; i++) {
+        if (taskList[i].task.includes(searchTerm)) {
+          terms.push(taskList[i]);
+        }
+      }
+      return terms
+    }
+    else if (filterCategory.value === "category") {
+      for (let i = 0; i < taskList.length; i++) {
+        if (taskList[i].category.includes(searchTerm)) {
+          terms.push(taskList[i]);
+        }
+      }
+      return terms
+    }
+    else if (filterCategory.value === "status") {
+      for (let i = 0; i < taskList.length; i++) {
+        if (taskList[i].status.includes(searchTerm)) {
+          terms.push(taskList[i]);
+        }
+      }
+      return terms
+    }
+  }
+
+function showFilteredTasks(filteredTasks){
+   taskL.innerHTML = "";
+
+  for (let i = 0; i < filteredTasks.length; i++) {
+    let taskItem = document.createElement("li");
+
+    taskItem.innerText = `${filteredTasks[i].task} | ${filteredTasks[i].category} |  ${filteredTasks[i].deadLine} | ${filteredTasks[i].status}`;
+
+    taskL.appendChild(taskItem);
+  }
+
+}
+
+ function checkOverdueTasks() {
   let today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -46,24 +100,8 @@ addTaskButton.addEventListener("click", function () {
     if (task.status !== "Completed" && deadline < today) {
       task.status = "Overdue";
     }
-  })}
-  
-});
-
-filterButton.addEventListener("click", function(){
-let filter = filterInput.value
-
-filterItem(filter)
-function filterItem(searchTerm) {
-  let terms = [];
-  for (i = 0; i < taskList.length; i++) {
-    if (taskList[i] === searchTerm) {
-      terms.push(taskList[i]);
-    }
-  }
-  return terms;
+  });
 }
-});
 
 function showTasks() {
   taskL.innerHTML = "";
