@@ -1,4 +1,4 @@
-let taskList = [];
+let taskList = JSON.parse(localStorage.getItem("taskList")) || [];
 
 let taskLabel = document.getElementById("task");
 let categoryInput = document.getElementById("categoryInput");
@@ -24,8 +24,9 @@ addTaskButton.addEventListener("click", function () {
     alert("Please enter in each input field!");
     return;
   }
-
   taskList.push(tasks);
+ // Save tasks to local storage
+  localStorage.setItem("taskList", JSON.stringify(taskList));
   checkOverdueTasks();
   showTasks();
 
@@ -39,7 +40,7 @@ filterButton.addEventListener("click", function () {
   let filter = filterInput.value;
 
   let filteredTasks = filterItem(filter);
-  console.log(filteredTasks);
+  //console.log(filteredTasks);
   showFilteredTasks(filteredTasks);
 
   filterInput.value = "";
